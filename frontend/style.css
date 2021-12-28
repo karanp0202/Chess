@@ -1,0 +1,122 @@
+* {
+    margin: 0%;
+    padding: 0%;
+}
+
+body {
+    background: #413f3f;
+    height: 100%;
+    /* background-repeat: no-repeat; */
+}
+
+h1 {
+    color: rgba(230, 210, 210, 0.534);
+    text-align: center;
+}
+
+.chessBoard {
+    background: linear-gradient(rgba(255, 0, 0, 0.685), rgba(0, 0, 255, 0.719));
+    width: 80vh;
+    height: 82vh;
+    border-radius: 15px;
+    padding: 3px;
+    margin: auto;
+    aspect-ratio: 1/1;
+}
+
+.row {
+    display: flex;
+    height: 10.5%;
+    padding-block: 0.9%;
+    width: 100%;
+}
+
+.column {
+    background-color: white;
+    border: 10% solid black;
+    text-align: center;
+    border-radius: 20%;
+    margin-inline: 0.6%;
+    height: 100%;
+    width: 12.5%;
+    overflow: hidden;
+}
+
+.column div {
+    height: 60%;
+    width: 60%;
+}
+
+.row:nth-child(even) .column:nth-child(odd) {
+    background-color: black;
+    border: solid black;
+    border-width: 2%;
+}
+
+.row:nth-child(odd) .column:nth-child(even) {
+    background-color: black;
+    border: solid black;
+    border-width: 2%;
+}
+
+.row:nth-child(even) .column:nth-child(even) {
+    background-color: white;
+    border: solid white;
+    border-width: 2%;
+}
+
+.row:nth-child(odd) .column:nth-child(odd) {
+    background-color: white;
+    border: solid white;
+    border-width: 2%;
+}
+
+.container .chessBoard .piece .redPlayer svg {
+    height: 120%;
+    width: 120%;
+    margin: 20%;
+    color: red;
+}
+
+.container .chessBoard .piece .bluePlayer svg {
+    height: 120%;
+    width: 120%;
+    margin: 20%;
+    color: blue;
+}
+
+.movable-blue {
+    background-color: hotpink!important;
+    border: solid hotpink!important;
+}
+
+.movable-red {
+    background-color: hotpink!important;
+    border: solid hotpink!important;
+}
+
+.selected {
+    border: solid hotpink!important;
+}
+
+@media (max-width: 786px) {
+    .container .chessBoard {
+        width: 100vw;
+        height: 100vw;
+        border-radius: 5px;
+        padding: 0%;
+    }
+    .column {
+        margin-inline: 0.9%;
+        border-radius: 5px;
+        width: 11.5%;
+    }
+    .container .chessBoard .piece .redPlayer svg,
+    .container .chessBoard .piece .bluePlayer svg {
+        height: 120%;
+        width: 120%;
+    }
+}
+
+
+/*# sourceMappingURL=style.css.map */
