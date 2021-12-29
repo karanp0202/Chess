@@ -1,3 +1,9 @@
+:root {
+    --movable: rgb(255, 115, 185);
+    --die: rgb(255, 101, 101);
+    --theme: rgb(236, 164, 253);
+}
+
 * {
     margin: 0%;
     padding: 0%;
@@ -12,14 +18,16 @@ body {
 h1 {
     color: rgba(230, 210, 210, 0.534);
     text-align: center;
+    font-size: 3vh;
 }
 
 .chessBoard {
     background: linear-gradient(rgba(255, 0, 0, 0.685), rgba(0, 0, 255, 0.719));
-    width: 80vh;
-    height: 82vh;
-    border-radius: 15px;
-    padding: 3px;
+    max-width: 93vh;
+    max-height: 93vh;
+    border-radius: 3%;
+    padding-inline: 0.3%;
+    padding-top: 0.3%;
     margin: auto;
     aspect-ratio: 1/1;
 }
@@ -61,61 +69,43 @@ h1 {
 
 .row:nth-child(even) .column:nth-child(even) {
     background-color: white;
-    border: solid white;
+    border: solid black;
     border-width: 2%;
 }
 
 .row:nth-child(odd) .column:nth-child(odd) {
     background-color: white;
-    border: solid white;
+    border: solid black;
     border-width: 2%;
 }
 
 .container .chessBoard .piece .redPlayer svg {
-    height: 120%;
-    width: 120%;
+    height: 123%;
+    width: 123%;
     margin: 20%;
     color: red;
+    transform: rotate(180deg);
 }
 
 .container .chessBoard .piece .bluePlayer svg {
-    height: 120%;
-    width: 120%;
+    height: 123%;
+    width: 123%;
     margin: 20%;
     color: blue;
 }
 
-.movable-blue {
-    background-color: hotpink!important;
-    border: solid hotpink!important;
-}
-
-.movable-red {
-    background-color: hotpink!important;
-    border: solid hotpink!important;
+.movable {
+    background-color: var(--movable)!important;
+    border: solid var(--movable)!important;
 }
 
 .selected {
-    border: solid hotpink!important;
+    border: solid var(--movable)!important;
 }
 
-@media (max-width: 786px) {
-    .container .chessBoard {
-        width: 100vw;
-        height: 100vw;
-        border-radius: 5px;
-        padding: 0%;
-    }
-    .column {
-        margin-inline: 0.9%;
-        border-radius: 5px;
-        width: 11.5%;
-    }
-    .container .chessBoard .piece .redPlayer svg,
-    .container .chessBoard .piece .bluePlayer svg {
-        height: 120%;
-        width: 120%;
-    }
+.die {
+    background-color: var(--die)!important;
+    border: solid var(--die)!important;
 }
 
 

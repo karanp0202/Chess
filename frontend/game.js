@@ -76,10 +76,22 @@ function clear() {
     for (i in pieces) {
         for (j in pieces[i]) {
             let l = document.getElementById(`${i}${j}`)
-            l.classList.remove('movable-blue');
-            l.classList.remove('movable-red');
+            l.classList.remove('movable');
             l.classList.remove('selected');
+            l.classList.remove('die');
         }
+    }
+}
+
+move_hook = (id, x, y) => {
+    if (Number.parseInt(id[0]) + x >= 0 && Number.parseInt(id[1]) + y >= 0 && Number.parseInt(id[0]) + x <= 7 && Number.parseInt(id[1]) + y <= 7)
+        if (pieces[Number.parseInt(id[0]) + x][Number.parseInt(id[1]) + y] == '__') {
+            l = document.getElementById(`${Number.parseInt(id[0]) + x}${Number.parseInt(id[1]) + y}`)
+            l.classList.add('movable');
+        } else
+    if (pieces[Number.parseInt(id[0]) + x][Number.parseInt(id[1]) + y][0] != pieces[id[0]][id[1]][0]) {
+        l = document.getElementById(`${Number.parseInt(id[0]) + x}${Number.parseInt(id[1]) + y}`)
+        l.classList.add('die');
     }
 }
 
@@ -93,7 +105,7 @@ function setmovable(id) {
     // console.log(pieces[6][0] + pieces[6][1] + pieces[6][1] + pieces[6][2] + pieces[6][3] + pieces[6][4] + pieces[6][5] + pieces[6][7])
     // console.log(pieces[7][0] + pieces[7][1] + pieces[7][1] + pieces[7][2] + pieces[7][3] + pieces[7][4] + pieces[7][5] + pieces[7][7])
     let l = document.getElementById(`${id[0]}${id[1]}`);
-    if (l.classList.contains('movable-blue')) {
+    if (l.classList.contains('movable') || l.classList.contains('die')) {
         document.getElementById(`${id[0]}${id[1]}`).innerHTML = document.getElementById(selected).innerHTML;
         document.getElementById(selected).innerHTML = ""
         pieces[id[0]][id[1]] = pieces[selected[0]][selected[1]]
@@ -101,94 +113,217 @@ function setmovable(id) {
         clear()
         return;
     }
-    for (i in pieces) {
-        for (j in pieces[i]) {
-            let l = document.getElementById(`${i}${j}`)
-            l.classList.remove('movable-blue');
-            l.classList.remove('movable-red');
-            l.classList.remove('selected');
-        }
-    }
+    clear();
+
     l.classList.add('selected');
     selected = id
     switch (pieces[id[0]][id[1]]) {
         case 'bp':
-            if (Number.parseInt(id[0]) > 0 && pieces[Number.parseInt(id[0]) - 1][Number.parseInt(id[1])] == '__') l = document.getElementById(`${(Number.parseInt(id[0]) - 1)}${Number.parseInt(id[1])}`)
-            l.classList.add('movable-blue');
-            if (Number.parseInt(id[0]) > 1 && Number.parseInt(id[0]) > 5 && pieces[Number.parseInt(id[0]) - 1][Number.parseInt(id[1])] == '__' && pieces[Number.parseInt(id[0]) - 2][Number.parseInt(id[1])] == '__') l = document.getElementById(`${(Number.parseInt(id[0]) - 2)}${Number.parseInt(id[1])}`)
-            l.classList.add('movable-blue');
+            // blue pawn
+            if (Number.parseInt(id[0]) > 0 && pieces[Number.parseInt(id[0]) - 1][Number.parseInt(id[1])] == '__') {
+                l = document.getElementById(`${(Number.parseInt(id[0]) - 1)}${Number.parseInt(id[1])}`)
+                l.classList.add('movable');
+            }
+            if (Number.parseInt(id[0]) > 5 && pieces[Number.parseInt(id[0]) - 1][Number.parseInt(id[1])] == '__' && pieces[Number.parseInt(id[0]) - 2][Number.parseInt(id[1])] == '__') {
+                l = document.getElementById(`${(Number.parseInt(id[0]) - 2)}${Number.parseInt(id[1])}`)
+                l.classList.add('movable');
+            }
+            if (Number.parseInt(id[0]) > 0 && Number.parseInt(id[1]) > 0 && pieces[Number.parseInt(id[0]) - 1][Number.parseInt(id[1]) - 1] != '__' && pieces[Number.parseInt(id[0]) - 1][Number.parseInt(id[1]) - 1][0] != pieces[id[0]][id[1]][0]) {
+                l = document.getElementById(`${(Number.parseInt(id[0]) - 1)}${Number.parseInt(id[1]) - 1}`)
+                l.classList.add('die');
+            }
+            if (Number.parseInt(id[0]) > 0 && Number.parseInt(id[1]) < 7 && pieces[Number.parseInt(id[0]) - 1][Number.parseInt(id[1]) + 1] != '__' && pieces[Number.parseInt(id[0]) - 1][Number.parseInt(id[1]) + 1][0] != pieces[id[0]][id[1]][0]) {
+                l = document.getElementById(`${(Number.parseInt(id[0]) - 1)}${Number.parseInt(id[1]) + 1}`)
+                l.classList.add('die');
+            }
+            break;
+        case 'rp':
+            // red pawn
+            if (Number.parseInt(id[0]) < 7 && pieces[Number.parseInt(id[0]) + 1][Number.parseInt(id[1])] == '__') {
+                l = document.getElementById(`${(Number.parseInt(id[0]) + 1)}${Number.parseInt(id[1])}`)
+                l.classList.add('movable');
+            }
+            if (Number.parseInt(id[0]) < 2 && pieces[Number.parseInt(id[0]) + 1][Number.parseInt(id[1])] == '__' && pieces[Number.parseInt(id[0]) + 2][Number.parseInt(id[1])] == '__') {
+                l = document.getElementById(`${(Number.parseInt(id[0]) + 2)}${Number.parseInt(id[1])}`)
+                l.classList.add('movable');
+            }
+            if (Number.parseInt(id[0]) > 0 && Number.parseInt(id[1]) > 0 && pieces[Number.parseInt(id[0]) + 1][Number.parseInt(id[1]) - 1] != '__' && pieces[Number.parseInt(id[0]) + 1][Number.parseInt(id[1]) - 1][0] != pieces[id[0]][id[1]][0]) {
+                l = document.getElementById(`${(Number.parseInt(id[0]) + 1)}${Number.parseInt(id[1]) - 1}`)
+                l.classList.add('die');
+            }
+            if (Number.parseInt(id[0]) > 0 && Number.parseInt(id[1]) < 7 && pieces[Number.parseInt(id[0]) + 1][Number.parseInt(id[1]) + 1] != '__' && pieces[Number.parseInt(id[0]) + 1][Number.parseInt(id[1]) + 1][0] != pieces[id[0]][id[1]][0]) {
+                l = document.getElementById(`${(Number.parseInt(id[0]) + 1)}${Number.parseInt(id[1]) + 1}`)
+                l.classList.add('die');
+            }
             break;
 
         case 'bh':
+            // blue-red hook
+        case 'rh':
+            // UP
             for (let i = Number.parseInt(id[0]) - 1; i >= 0; i--) {
                 if (pieces[i][Number.parseInt(id[1])] == '__') {
                     l = document.getElementById(`${i}${Number.parseInt(id[1])}`)
-                    l.classList.add('movable-blue');
-                } else {
-                    break
-                }
+                    l.classList.add('movable');
+                } else
+                if (pieces[i][Number.parseInt(id[1])][0] != pieces[id[0]][id[1]][0]) {
+                    l = document.getElementById(`${i}${Number.parseInt(id[1])}`)
+                    l.classList.add('die');
+                    break;
+                } else break;
+            }
+
+            // DOWN
+            for (let i = (Number.parseInt(id[0]) + 1); i < 8; i++) {
+                if (pieces[i][Number.parseInt(id[1])] == '__') {
+                    l = document.getElementById(`${i}${Number.parseInt(id[1])}`)
+                    l.classList.add('movable');
+                } else
+                if (pieces[i][Number.parseInt(id[1])][0] != pieces[id[0]][id[1]][0]) {
+                    l = document.getElementById(`${i}${Number.parseInt(id[1])}`)
+                    l.classList.add('die');
+                    break;
+                } else break;
+            }
+
+            // LEFT
+            for (let i = (Number.parseInt(id[1]) - 1); i >= 0; i--) {
+                if (pieces[Number.parseInt(id[0])][i] == '__') {
+                    l = document.getElementById(`${Number.parseInt(id[0])}${i}`)
+                    l.classList.add('movable');
+                } else
+                if (pieces[Number.parseInt(id[0])][i][0] != pieces[id[0]][id[1]][0]) {
+                    l = document.getElementById(`${Number.parseInt(id[0])}${i}`)
+                    l.classList.add('die');
+                    break;
+                } else break;
+            }
+
+            // RIGHT
+            for (let i = (Number.parseInt(id[1]) + 1); i < 8; i++) {
+                if (pieces[Number.parseInt(id[0])][i] == '__') {
+                    l = document.getElementById(`${Number.parseInt(id[0])}${i}`)
+                    l.classList.add('movable');
+                } else
+                if (pieces[Number.parseInt(id[0])][i][0] != pieces[id[0]][id[1]][0]) {
+                    l = document.getElementById(`${Number.parseInt(id[0])}${i}`)
+                    l.classList.add('die');
+                    break;
+                } else break;
+            }
+            break;
+
+        case 'bq':
+        case 'rq':
+            for (let i = Number.parseInt(id[0]) - 1; i >= 0; i--) {
+                if (pieces[i][Number.parseInt(id[1])] == '__') {
+                    l = document.getElementById(`${i}${Number.parseInt(id[1])}`)
+                    l.classList.add('movable');
+                } else
+                if (pieces[i][Number.parseInt(id[1])][0] != pieces[id[0]][id[1]][0]) {
+                    l = document.getElementById(`${i}${Number.parseInt(id[1])}`)
+                    l.classList.add('die');
+                    break;
+                } else break;
             }
 
             for (let i = (Number.parseInt(id[0]) + 1); i < 8; i++) {
                 if (pieces[i][Number.parseInt(id[1])] == '__') {
                     l = document.getElementById(`${i}${Number.parseInt(id[1])}`)
-                    l.classList.add('movable-blue');
-                } else {
-                    break
-                }
+                    l.classList.add('movable');
+                } else
+                if (pieces[i][Number.parseInt(id[1])][0] != pieces[id[0]][id[1]][0]) {
+                    l = document.getElementById(`${i}${Number.parseInt(id[1])}`)
+                    l.classList.add('die');
+                    break;
+                } else break;
             }
 
             for (let i = (Number.parseInt(id[1]) - 1); i >= 0; i--) {
                 if (pieces[Number.parseInt(id[0])][i] == '__') {
                     l = document.getElementById(`${Number.parseInt(id[0])}${i}`)
-                    l.classList.add('movable-blue');
-                } else {
-                    break
-                }
+                    l.classList.add('movable');
+                } else
+                if (pieces[Number.parseInt(id[0])][i][0] != pieces[id[0]][id[1]][0]) {
+                    l = document.getElementById(`${Number.parseInt(id[0])}${i}`)
+                    l.classList.add('die');
+                    break;
+                } else break;
             }
 
             for (let i = (Number.parseInt(id[1]) + 1); i < 8; i++) {
                 if (pieces[Number.parseInt(id[0])][i] == '__') {
                     l = document.getElementById(`${Number.parseInt(id[0])}${i}`)
-                    l.classList.add('movable-blue');
-                } else {
-                    break
-                }
+                    l.classList.add('movable');
+                } else
+                if (pieces[Number.parseInt(id[0])][i][0] != pieces[id[0]][id[1]][0]) {
+                    l = document.getElementById(`${Number.parseInt(id[0])}${i}`)
+                    l.classList.add('die');
+                    break;
+                } else break;
             }
-            break
+
+        case 'bk':
+        case 'rk':
+            move_hook(id, -1, -2);
+            move_hook(id, -2, -1);
+            move_hook(id, 1, -2);
+            move_hook(id, 2, -1);
+            move_hook(id, -1, 2);
+            move_hook(id, -2, 1);
+            move_hook(id, 1, 2);
+            move_hook(id, 2, 1);
+            break;
 
         case 'bb':
+        case 'rb':
+            // UP LEFT
             for (let i = 1; Number.parseInt(id[0]) - i >= 0 && Number.parseInt(id[1]) - i >= 0; i++) {
                 if (pieces[Number.parseInt(id[0]) - i][Number.parseInt(id[1]) - i] == '__') {
                     l = document.getElementById(`${Number.parseInt(id[0]) - i}${Number.parseInt(id[1]) - i}`)
-                    l.classList.add('movable-blue');
-                } else {
-                    break
-                }
+                    l.classList.add('movable');
+                } else
+                if (pieces[Number.parseInt(id[0]) - i][Number.parseInt(id[1]) - i][0] != pieces[id[0]][id[1]][0]) {
+                    l = document.getElementById(`${Number.parseInt(id[0]) - i}${Number.parseInt(id[1]) - i}`)
+                    l.classList.add('die');
+                    break;
+                } else break;
             }
+            // DOWN LEFT
             for (let i = 1; Number.parseInt(id[0]) + i < 8 && Number.parseInt(id[1]) - i >= 0; i++) {
                 if (pieces[Number.parseInt(id[0]) + i][Number.parseInt(id[1]) - i] == '__') {
                     l = document.getElementById(`${Number.parseInt(id[0]) + i}${Number.parseInt(id[1]) - i}`)
-                    l.classList.add('movable-blue');
-                } else {
-                    break
-                }
+                    l.classList.add('movable');
+                } else
+                if (pieces[Number.parseInt(id[0]) + i][Number.parseInt(id[1]) - i][0] != pieces[id[0]][id[1]][0]) {
+                    l = document.getElementById(`${Number.parseInt(id[0]) + i}${Number.parseInt(id[1]) - i}`)
+                    l.classList.add('die');
+                    break;
+                } else break;
             }
+            // DOWN RIGHT
             for (let i = 1; Number.parseInt(id[0]) + i < 8 && Number.parseInt(id[1]) + i < 8; i++) {
                 if (pieces[Number.parseInt(id[0]) + i][Number.parseInt(id[1]) + i] == '__') {
                     l = document.getElementById(`${Number.parseInt(id[0]) + i}${Number.parseInt(id[1]) + i}`)
-                    l.classList.add('movable-blue');
-                } else {
-                    break
-                }
+                    l.classList.add('movable');
+                } else
+                if (pieces[Number.parseInt(id[0]) + i][Number.parseInt(id[1]) + i][0] != pieces[id[0]][id[1]][0]) {
+                    l = document.getElementById(`${Number.parseInt(id[0]) + i}${Number.parseInt(id[1]) + i}`)
+                    l.classList.add('die');
+                    break;
+                } else break;
             }
+            // UP RIGHT
             for (let i = 1; Number.parseInt(id[0]) - i >= 0 && Number.parseInt(id[1]) + i < 8; i++) {
                 if (pieces[Number.parseInt(id[0]) - i][Number.parseInt(id[1]) + i] == '__') {
                     l = document.getElementById(`${Number.parseInt(id[0]) - i}${Number.parseInt(id[1]) + i}`)
-                    l.classList.add('movable-blue');
-                } else {
-                    break
-                }
+                    l.classList.add('movable');
+                } else
+                if (pieces[Number.parseInt(id[0]) - i][Number.parseInt(id[1]) + i][0] != pieces[id[0]][id[1]][0]) {
+                    l = document.getElementById(`${Number.parseInt(id[0]) - i}${Number.parseInt(id[1]) + i}`)
+                    l.classList.add('die');
+                    break;
+                } else break;
             }
 
         default:
