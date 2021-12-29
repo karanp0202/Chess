@@ -83,7 +83,32 @@ function clear() {
     }
 }
 
-move_hook = (id, x, y) => {
+fliped = false;
+
+flip = () => {
+    l = document.getElementById("board")
+    if (!fliped) {
+        l.classList.add('rotated')
+        for (i in pieces) {
+            for (j in pieces[i]) {
+                l = document.getElementById(`${i}${j}`)
+                l.classList.add('rotated');
+            }
+        }
+        fliped = true
+    } else {
+        l.classList.remove('rotated')
+        for (i in pieces) {
+            for (j in pieces[i]) {
+                l = document.getElementById(`${i}${j}`)
+                l.classList.remove('rotated');
+            }
+        }
+        fliped = false
+    }
+}
+
+move_piece = (id, x, y) => {
     if (Number.parseInt(id[0]) + x >= 0 && Number.parseInt(id[1]) + y >= 0 && Number.parseInt(id[0]) + x <= 7 && Number.parseInt(id[1]) + y <= 7)
         if (pieces[Number.parseInt(id[0]) + x][Number.parseInt(id[1]) + y] == '__') {
             l = document.getElementById(`${Number.parseInt(id[0]) + x}${Number.parseInt(id[1]) + y}`)
@@ -108,6 +133,12 @@ function setmovable(id) {
     if (l.classList.contains('movable') || l.classList.contains('die')) {
         document.getElementById(`${id[0]}${id[1]}`).innerHTML = document.getElementById(selected).innerHTML;
         document.getElementById(selected).innerHTML = ""
+        if (pieces[id[0]][id[1]] == 'rK') {
+            pieces[id[0]][id[1]] = pieces[selected[0]][selected[1]]
+            pieces[selected[0]][selected[1]] = '__'
+            alert("Blue won")
+            window.location.replace("./");
+        }
         pieces[id[0]][id[1]] = pieces[selected[0]][selected[1]]
         pieces[selected[0]][selected[1]] = '__'
         clear()
@@ -263,18 +294,6 @@ function setmovable(id) {
                 } else break;
             }
 
-        case 'bk':
-        case 'rk':
-            move_hook(id, -1, -2);
-            move_hook(id, -2, -1);
-            move_hook(id, 1, -2);
-            move_hook(id, 2, -1);
-            move_hook(id, -1, 2);
-            move_hook(id, -2, 1);
-            move_hook(id, 1, 2);
-            move_hook(id, 2, 1);
-            break;
-
         case 'bb':
         case 'rb':
             // UP LEFT
@@ -325,6 +344,31 @@ function setmovable(id) {
                     break;
                 } else break;
             }
+            break;
+
+        case 'bk':
+        case 'rk':
+            move_piece(id, -1, -2);
+            move_piece(id, -2, -1);
+            move_piece(id, 1, -2);
+            move_piece(id, 2, -1);
+            move_piece(id, -1, 2);
+            move_piece(id, -2, 1);
+            move_piece(id, 1, 2);
+            move_piece(id, 2, 1);
+            break;
+
+        case 'bK':
+        case 'rK':
+            move_piece(id, -1, -1);
+            move_piece(id, -1, 0);
+            move_piece(id, -1, +1);
+            move_piece(id, 0, +1);
+            move_piece(id, +1, +1);
+            move_piece(id, +1, 0);
+            move_piece(id, +1, -1);
+            move_piece(id, 0, -1);
+            break;
 
         default:
             break;
@@ -334,6 +378,8 @@ function setmovable(id) {
 window.onkeydown = (key) => {
     if (key.keyCode == 27)
         clear();
+    if (key.keyCode == 32)
+        flip()
 }
 
 for (i = 0; i < 8; i++) {
