@@ -1,10 +1,10 @@
 var pieces = new Array();
 pieces[0] = new Array('rh', 'rk', 'rb', 'rq', 'rK', 'rb', 'rk', 'rh');
 pieces[1] = new Array('rp', 'rp', 'rp', 'rp', 'rp', 'rp', 'rp', 'rp');
-pieces[2] = new Array('_', '_', '_', '_', '_', '_', '_', '_');
-pieces[3] = new Array('_', '_', '_', '_', '_', '_', '_', '_');
-pieces[4] = new Array('_', '_', '_', '_', '_', '_', '_', '_');
-pieces[5] = new Array('_', '_', '_', '_', '_', '_', '_', '_');
+pieces[2] = new Array('__', '__', '__', '__', '__', '__', '__', '__');
+pieces[3] = new Array('__', '__', '__', '__', '__', '__', '__', '__');
+pieces[4] = new Array('__', '__', '__', '__', '__', '__', '__', '__');
+pieces[5] = new Array('__', '__', '__', '__', '__', '__', '__', '__');
 pieces[6] = new Array('bp', 'bp', 'bp', 'bp', 'bp', 'bp', 'bp', 'bp');
 pieces[7] = new Array('bh', 'bk', 'bb', 'bq', 'bK', 'bb', 'bk', 'bh');
 
@@ -26,7 +26,6 @@ initsetup = () => {
 
     for (i in pieces) {
         for (j in pieces[i]) {
-            console.log(pieces[i][j]);
             switch (pieces[i][j]) {
                 case 'rh':
                     document.getElementById(`${i}${j}`).innerHTML = red_hook;
@@ -85,12 +84,20 @@ function clear() {
 }
 
 function setmovable(id) {
+    // console.log(pieces[0][0] + pieces[0][1] + pieces[0][1] + pieces[0][2] + pieces[0][3] + pieces[0][4] + pieces[0][5] + pieces[0][7])
+    // console.log(pieces[1][0] + pieces[1][1] + pieces[1][1] + pieces[1][2] + pieces[1][3] + pieces[1][4] + pieces[1][5] + pieces[1][7])
+    // console.log(pieces[2][0] + pieces[2][1] + pieces[2][1] + pieces[2][2] + pieces[2][3] + pieces[2][4] + pieces[2][5] + pieces[2][7])
+    // console.log(pieces[3][0] + pieces[3][1] + pieces[3][1] + pieces[3][2] + pieces[3][3] + pieces[3][4] + pieces[3][5] + pieces[3][7])
+    // console.log(pieces[4][0] + pieces[4][1] + pieces[4][1] + pieces[4][2] + pieces[4][3] + pieces[4][4] + pieces[4][5] + pieces[4][7])
+    // console.log(pieces[5][0] + pieces[5][1] + pieces[5][1] + pieces[5][2] + pieces[5][3] + pieces[5][4] + pieces[5][5] + pieces[5][7])
+    // console.log(pieces[6][0] + pieces[6][1] + pieces[6][1] + pieces[6][2] + pieces[6][3] + pieces[6][4] + pieces[6][5] + pieces[6][7])
+    // console.log(pieces[7][0] + pieces[7][1] + pieces[7][1] + pieces[7][2] + pieces[7][3] + pieces[7][4] + pieces[7][5] + pieces[7][7])
     let l = document.getElementById(`${id[0]}${id[1]}`);
     if (l.classList.contains('movable-blue')) {
         document.getElementById(`${id[0]}${id[1]}`).innerHTML = document.getElementById(selected).innerHTML;
         document.getElementById(selected).innerHTML = ""
-        pieces[id[0]][id[1]] = 'bp'
-        pieces[selected[0]][selected[1]] = '_'
+        pieces[id[0]][id[1]] = pieces[selected[0]][selected[1]]
+        pieces[selected[0]][selected[1]] = '__'
         clear()
         return;
     }
@@ -106,12 +113,83 @@ function setmovable(id) {
     selected = id
     switch (pieces[id[0]][id[1]]) {
         case 'bp':
-            console.log(id[0])
-            if (id[0] > 0) l = document.getElementById(`${id[0] - 1}${id[1]}`)
+            if (Number.parseInt(id[0]) > 0 && pieces[Number.parseInt(id[0]) - 1][Number.parseInt(id[1])] == '__') l = document.getElementById(`${(Number.parseInt(id[0]) - 1)}${Number.parseInt(id[1])}`)
             l.classList.add('movable-blue');
-            if (id[0] > 1) l = document.getElementById(`${id[0] - 2}${id[1]}`)
+            if (Number.parseInt(id[0]) > 1 && Number.parseInt(id[0]) > 5 && pieces[Number.parseInt(id[0]) - 1][Number.parseInt(id[1])] == '__' && pieces[Number.parseInt(id[0]) - 2][Number.parseInt(id[1])] == '__') l = document.getElementById(`${(Number.parseInt(id[0]) - 2)}${Number.parseInt(id[1])}`)
             l.classList.add('movable-blue');
             break;
+
+        case 'bh':
+            for (let i = Number.parseInt(id[0]) - 1; i >= 0; i--) {
+                if (pieces[i][Number.parseInt(id[1])] == '__') {
+                    l = document.getElementById(`${i}${Number.parseInt(id[1])}`)
+                    l.classList.add('movable-blue');
+                } else {
+                    break
+                }
+            }
+
+            for (let i = (Number.parseInt(id[0]) + 1); i < 8; i++) {
+                if (pieces[i][Number.parseInt(id[1])] == '__') {
+                    l = document.getElementById(`${i}${Number.parseInt(id[1])}`)
+                    l.classList.add('movable-blue');
+                } else {
+                    break
+                }
+            }
+
+            for (let i = (Number.parseInt(id[1]) - 1); i >= 0; i--) {
+                if (pieces[Number.parseInt(id[0])][i] == '__') {
+                    l = document.getElementById(`${Number.parseInt(id[0])}${i}`)
+                    l.classList.add('movable-blue');
+                } else {
+                    break
+                }
+            }
+
+            for (let i = (Number.parseInt(id[1]) + 1); i < 8; i++) {
+                if (pieces[Number.parseInt(id[0])][i] == '__') {
+                    l = document.getElementById(`${Number.parseInt(id[0])}${i}`)
+                    l.classList.add('movable-blue');
+                } else {
+                    break
+                }
+            }
+            break
+
+        case 'bb':
+            for (let i = 1; Number.parseInt(id[0]) - i >= 0 && Number.parseInt(id[1]) - i >= 0; i++) {
+                if (pieces[Number.parseInt(id[0]) - i][Number.parseInt(id[1]) - i] == '__') {
+                    l = document.getElementById(`${Number.parseInt(id[0]) - i}${Number.parseInt(id[1]) - i}`)
+                    l.classList.add('movable-blue');
+                } else {
+                    break
+                }
+            }
+            for (let i = 1; Number.parseInt(id[0]) + i < 8 && Number.parseInt(id[1]) - i >= 0; i++) {
+                if (pieces[Number.parseInt(id[0]) + i][Number.parseInt(id[1]) - i] == '__') {
+                    l = document.getElementById(`${Number.parseInt(id[0]) + i}${Number.parseInt(id[1]) - i}`)
+                    l.classList.add('movable-blue');
+                } else {
+                    break
+                }
+            }
+            for (let i = 1; Number.parseInt(id[0]) + i < 8 && Number.parseInt(id[1]) + i < 8; i++) {
+                if (pieces[Number.parseInt(id[0]) + i][Number.parseInt(id[1]) + i] == '__') {
+                    l = document.getElementById(`${Number.parseInt(id[0]) + i}${Number.parseInt(id[1]) + i}`)
+                    l.classList.add('movable-blue');
+                } else {
+                    break
+                }
+            }
+            for (let i = 1; Number.parseInt(id[0]) - i >= 0 && Number.parseInt(id[1]) + i < 8; i++) {
+                if (pieces[Number.parseInt(id[0]) - i][Number.parseInt(id[1]) + i] == '__') {
+                    l = document.getElementById(`${Number.parseInt(id[0]) - i}${Number.parseInt(id[1]) + i}`)
+                    l.classList.add('movable-blue');
+                } else {
+                    break
+                }
+            }
 
         default:
             break;
