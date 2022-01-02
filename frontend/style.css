@@ -12,6 +12,7 @@
 body {
     background: #413f3f;
     height: 100%;
+    overflow: hidden;
     /* background-repeat: no-repeat; */
 }
 
