@@ -32,7 +32,7 @@ app.get('/reset', (req, res) => {
     board[6] = new Array('bp', 'bp', 'bp', 'bp', 'bp', 'bp', 'bp', 'bp');
     board[7] = new Array('bh', 'bk', 'bb', 'bq', 'bK', 'bb', 'bk', 'bh');
     fs.writeFileSync(path.join(__dirname, "./board.json"), JSON.stringify(board))
-    res.send(board)
+    res.send("/")
 })
 
 app.listen(port, () => {});

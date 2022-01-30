@@ -14,116 +14,67 @@ var blue_queen = `<div class="piece"><span class="bluePlayer"><svg aria-hidden="
 var blue_king = `<div class="piece"><span class="bluePlayer"><svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="chess-king" class="svg-inline--fa fa-chess-king" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M391.9 464H55.95c-13.25 0-23.1 10.75-23.1 23.1S42.7 512 55.95 512h335.1c13.25 0 23.1-10.75 23.1-23.1S405.2 464 391.9 464zM448 216c0-11.82-3.783-23.51-11.08-33.17c-10.3-14.39-27-22.88-44.73-22.88L247.9 160V104h31.1c13.2 0 24.06-10.8 24.06-24S293.1 56 279.9 56h-31.1V23.1C247.9 10.8 237.2 0 223.1 0S199.9 10.8 199.9 23.1V56H167.9c-13.2 0-23.97 10.8-23.97 24S154.7 104 167.9 104h31.1V160H55.95C24.72 160 0 185.3 0 215.9C0 221.6 .8893 227.4 2.704 233L68.45 432h50.5L48.33 218.4C48.09 217.6 47.98 216.9 47.98 216.1C47.98 212.3 50.93 208 55.95 208h335.9c6.076 0 8.115 5.494 8.115 8.113c0 .6341-.078 1.269-.2405 1.887L328.8 432h50.62l65.1-199.2C447.2 227.3 448 221.7 448 216z"></path></svg></span></div>`
 var blue_pawn = `<div class="piece"><span class="bluePlayer"><svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="chess-pawn" class="svg-inline--fa fa-chess-pawn" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M296 463.1H23.1c-13.25 0-23.1 10.75-23.1 24s10.75 24 23.1 24h272c13.25 0 23.1-10.75 23.1-23.1S309.3 463.1 296 463.1zM55.1 287.1L80 287.1v29.5c0 40.25-3.5 81.25-23.38 114.5h53.5C125.1 394.1 128 354.6 128 317.5v-29.5h64v29.5c0 37.13 2.875 77.5 17.88 114.5h53.5C243.5 398.7 240 357.7 240 317.5V287.1l24-.0001C277.3 287.1 288 277.3 288 263.1c0-13.25-10.75-24-23.1-24H241c23.75-21.88 38.1-53.12 38.1-87.1c0-9.393-1.106-19.05-3.451-28.86C272.3 105.4 244.9 32 159.1 32C93.75 32 40 85.75 40 151.1c0 34.88 15.12 66.12 39 88H55.1C42.75 239.1 32 250.7 32 263.1C32 277.3 42.75 287.1 55.1 287.1zM160 79.1c39.75 0 72 32.25 72 72S199.8 223.1 160 223.1S88 191.7 88 151.1S120.2 79.1 160 79.1z"></path></svg></span></div>`
 
-setInterval(() => {
-    fetch('/board')
-        .then(response => response.json())
-        .then(json => {
-            for (i in json) {
-                board[i] = json[i]
-                for (j in board[i]) {
-                    switch (board[i][j]) {
-                        case 'rh':
-                            document.getElementById(`${i}${j}`).innerHTML = red_hook;
-                            break;
-                        case 'rk':
-                            document.getElementById(`${i}${j}`).innerHTML = red_knight;
-                            break;
-                        case 'rb':
-                            document.getElementById(`${i}${j}`).innerHTML = red_bishop;
-                            break;
-                        case 'rq':
-                            document.getElementById(`${i}${j}`).innerHTML = red_queen;
-                            break;
-                        case 'rK':
-                            document.getElementById(`${i}${j}`).innerHTML = red_king;
-                            break;
-                        case 'rp':
-                            document.getElementById(`${i}${j}`).innerHTML = red_pawn;
-                            break;
-                        case 'bh':
-                            document.getElementById(`${i}${j}`).innerHTML = blue_hook;
-                            break;
-                        case 'bk':
-                            document.getElementById(`${i}${j}`).innerHTML = blue_knight;
-                            break;
-                        case 'bb':
-                            document.getElementById(`${i}${j}`).innerHTML = blue_bishop;
-                            break;
-                        case 'bq':
-                            document.getElementById(`${i}${j}`).innerHTML = blue_queen;
-                            break;
-                        case 'bK':
-                            document.getElementById(`${i}${j}`).innerHTML = blue_king;
-                            break;
-                        case 'bp':
-                            document.getElementById(`${i}${j}`).innerHTML = blue_pawn;
-                            break;
-                        case '__':
-                            document.getElementById(`${i}${j}`).innerHTML = "";
-                            break;
-                        default:
-                            break;
+setup = () => {
+    try {
+
+        fetch('/board')
+            .then(response => response.json())
+            .then(json => {
+                for (i in json) {
+                    board[i] = json[i]
+                    for (j in board[i]) {
+                        switch (board[i][j]) {
+                            case 'rh':
+                                document.getElementById(`${i}${j}`).innerHTML = red_hook;
+                                break;
+                            case 'rk':
+                                document.getElementById(`${i}${j}`).innerHTML = red_knight;
+                                break;
+                            case 'rb':
+                                document.getElementById(`${i}${j}`).innerHTML = red_bishop;
+                                break;
+                            case 'rq':
+                                document.getElementById(`${i}${j}`).innerHTML = red_queen;
+                                break;
+                            case 'rK':
+                                document.getElementById(`${i}${j}`).innerHTML = red_king;
+                                break;
+                            case 'rp':
+                                document.getElementById(`${i}${j}`).innerHTML = red_pawn;
+                                break;
+                            case 'bh':
+                                document.getElementById(`${i}${j}`).innerHTML = blue_hook;
+                                break;
+                            case 'bk':
+                                document.getElementById(`${i}${j}`).innerHTML = blue_knight;
+                                break;
+                            case 'bb':
+                                document.getElementById(`${i}${j}`).innerHTML = blue_bishop;
+                                break;
+                            case 'bq':
+                                document.getElementById(`${i}${j}`).innerHTML = blue_queen;
+                                break;
+                            case 'bK':
+                                document.getElementById(`${i}${j}`).innerHTML = blue_king;
+                                break;
+                            case 'bp':
+                                document.getElementById(`${i}${j}`).innerHTML = blue_pawn;
+                                break;
+                            case '__':
+                                document.getElementById(`${i}${j}`).innerHTML = "";
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 }
-            }
-        })
-}, 1000);
-
-initsetup = () => {
-
-    fetch('/board')
-        .then(response => response.json())
-        .then(json => {
-            for (i in json) {
-                board[i] = json[i]
-                for (j in board[i]) {
-                    switch (board[i][j]) {
-                        case 'rh':
-                            document.getElementById(`${i}${j}`).innerHTML = red_hook;
-                            break;
-                        case 'rk':
-                            document.getElementById(`${i}${j}`).innerHTML = red_knight;
-                            break;
-                        case 'rb':
-                            document.getElementById(`${i}${j}`).innerHTML = red_bishop;
-                            break;
-                        case 'rq':
-                            document.getElementById(`${i}${j}`).innerHTML = red_queen;
-                            break;
-                        case 'rK':
-                            document.getElementById(`${i}${j}`).innerHTML = red_king;
-                            break;
-                        case 'rp':
-                            document.getElementById(`${i}${j}`).innerHTML = red_pawn;
-                            break;
-                        case 'bh':
-                            document.getElementById(`${i}${j}`).innerHTML = blue_hook;
-                            break;
-                        case 'bk':
-                            document.getElementById(`${i}${j}`).innerHTML = blue_knight;
-                            break;
-                        case 'bb':
-                            document.getElementById(`${i}${j}`).innerHTML = blue_bishop;
-                            break;
-                        case 'bq':
-                            document.getElementById(`${i}${j}`).innerHTML = blue_queen;
-                            break;
-                        case 'bK':
-                            document.getElementById(`${i}${j}`).innerHTML = blue_king;
-                            break;
-                        case 'bp':
-                            document.getElementById(`${i}${j}`).innerHTML = blue_pawn;
-                            break;
-                        case '__':
-                            document.getElementById(`${i}${j}`).innerHTML = "";
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
-        })
+            })
+    } catch (error) {
+        document.getElementsByClassName("connection").remove();
+    }
 }
+
+setInterval(setup, 1000);
 
 let selected;
 
@@ -465,4 +416,4 @@ fetch('/board')
         }
     })
 
-initsetup();
+setup();

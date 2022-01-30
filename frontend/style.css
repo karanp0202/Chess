@@ -22,6 +22,10 @@ h1 {
     font-size: 3vh;
 }
 
+.connection {
+    width: 3vh;
+}
+
 .flip {
     padding: 5vw;
     margin: auto;
